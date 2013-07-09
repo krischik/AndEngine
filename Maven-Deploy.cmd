@@ -22,11 +22,12 @@ GOTO :eof
 
 import scala.sys.process._
 
-val M2_Home      = System.getenv ("M2_HOME")
-val Maven_Deploy = System.getenv ("MAVEN_DEPLOY")
-val Project_Name = System.getenv ("PROJECT_NAME")
-val Maven_Name   = Project_Name +" Maven Repository"
-val mvn          = if (System.getProperty ("os.name") contains "Windows")
+val M2_Home	     = System.getenv ("M2_HOME")
+val Maven_Deploy     = System.getenv ("MAVEN_DEPLOY")
+val Maven_Reporitory = System.getenv ("MAVEN_REPOSITORY")
+val Project_Name     = System.getenv ("PROJECT_NAME")
+val Maven_Name	     = Project_Name +" Maven Repository"
+val mvn		     = if (System.getProperty ("os.name") contains "Windows")
     {
         "cmd" :: "/C" :: M2_Home + "\\bin\\mvn" :: Nil
     }
@@ -35,15 +36,15 @@ val mvn          = if (System.getProperty ("os.name") contains "Windows")
         "mvn" :: Nil
     }
 
-/*mvn ::: "--activate-profiles" :: "release" :: "install" :: Nil !;*/
-/*mvn ::: "--activate-profiles" :: "release" :: "site:site" :: Nil !;*/
+mvn ::: "--activate-profiles" :: "release" :: "install" :: Nil !;
+mvn ::: "--activate-profiles" :: "release" :: "site:site" :: Nil !;
 
 mvn :::
-    "--activate-profiles" :: "release"			     ::
-    "--define" :: "repo.id="   + Project_Name 		     ::
-    "--define" :: "repo.name=" + Maven_Name   		     ::
-    "--define" :: "repo.url="  + Maven_Deploy 		     ::
-    "--define" :: "repo="      + Maven_Deploy.slice (4,1000) ::
+    "--activate-profiles" :: "release"		  ::
+    "--define" :: "repo.id="   + Project_Name 	  ::
+    "--define" :: "repo.name=" + Maven_Name   	  ::
+    "--define" :: "repo.url="  + Maven_Deploy 	  ::
+    "--define" :: "repo="      + Maven_Reporitory ::
     "deploy"   :: Nil !;
 
 // vim: set wrap tabstop=8 shiftwidth=4 softtabstop=4 noexpandtab :
